@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style type="text/css">
+	.card{
+		width: 500px;
+		margin: auto;
+	}
+	.container{
+		padding: 20px;
+	}
+	#blog_img{
+		height: 300px;
+		width: 400px;
+		margin: 5px;
+	}
+	.form-control.negative{
+		background-color: red;
+		color: #fff;
+	}
+	.form-control.positive{
+		background-color: green;
+		color: #fff;
+	}
+
+</style>
+
+<div class="container">
+	<div class="row">
+
+		<div class="col-md-3">
+			<div class="card card-body">
+				<a href="{% url 'home' %}" style="text-decoration: none;">back</a>
+			</div>
+		</div>
+		
+
+		<!--Blog Post-->
+		<div class="card m-auto">
+
+			<!--{% for obj in qs %}
+				<img class="card-img-top mx-auto" id="blog_img" src="{{obj.image.url}}">
+
+				<div class="card-body my-2">
+					<h5 class="card-title">{{obj.title}}</h5>
+					<p class="card-text">{{obj.body}}</p>
+					{% if obj.author == request.user %}
+					<a href="{% url 'blog:edit' obj.slug %}" class="btn btn-primary">Edit</a>
+					{% endif %}
+					<form action="{% url 'blog:post_react' %}" method="POST" class="ui form">{% csrf_token %}
+						<input type="hidden" name="blog_id" value="{{obj.id}}">
+						{% if user not in obj.helpful.all %}
+							<button class="ui button positive" type="submit">helpful</button>
+						{% else %}
+							<button class="ui button negative" type="submit">unhelpful</button>
+						{% endif %}
+					</form>
+					<strong>{{obj.helpful.all.count}}</strong>
+				</div>
+				<div class="card-footer text-muted">Updated on {{obj.date_updated}} | by {{obj.author}}
+			{% endfor %}
+		</div-->
+			<!--when blog has an image file show, else nothing to show-->
+			{% if blog_posts.image %}
+				<img class="card-img-top mx-auto" id="blog_img" src="{{blog_posts.image.url}}">
+			{% endif %}
+
+			<div class="card-body my-1">
+				<h5 class="card-title">{{blog_posts.title}}</h5>
+				<p class="card-text">{{blog_posts.body}}</p>
+				{% if blog_posts.author == request.user %}
+				<a href="{% url 'blog:edit' blog_posts.slug %}" class="btn btn-primary">Edit</a>
+				{% endif %}
+				<form action="{% url 'blog:like-blog' blog_posts.slug %}" method="POST" class="like-form">{% csrf_token %}
+					<input type="hidden" name="blog_id" value="{{blog_posts.id}}">
+					{% if user in blog_posts.likes.all %}
+						<button class="form-control negative" type="submit">Unlike
+						</button>
+					{% else %}
+						<button class="form-control positive" type="submit">Like</button>
+					{% endif %}
+					<strong>{{blog_posts.likes.all.count}}</strong>
+				</form>
+			</div>
+			<div class="card-footer text-muted">Updated on {{blog_posts.date_updated}} | by {{blog_posts.author}}
+			</div>
+		</div>
+		<!--End Blog Post-->
+	</div>
+	
+</div>
+
+
+
+{% endblock content %}

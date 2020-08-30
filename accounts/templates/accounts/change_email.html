@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style type="text/css">
+	.form-accountupdate {
+	  width: 100%;
+	  max-width: 400px;
+	  padding: 15px;
+	  margin: auto;
+	  margin-top: 70px;
+	}
+
+	.form-accountupdate .form-control {
+	  position: relative;
+	  box-sizing: border-box;
+	  height: auto;
+	  padding: 10px;
+	  font-size: 16px;
+	}
+	.form-accountupdate .form-control:focus {
+	  z-index: 2;
+	}
+	.form-accountupdate input[type="email"] {
+	  margin-bottom: 10px;
+	  border-bottom-right-radius: 0;
+	  border-bottom-left-radius: 0;
+	}
+	.h3{
+		text-align: center;
+	}
+	.h6{
+		text-align: center;
+		margin-top: -1px;
+	}
+
+</style>
+
+<form class="form-accountupdate shadow p-4 mb-4 bg-white rounded-lg" method="post">{% csrf_token %}<!--encryption token that expires wehenever page is refreshed or stayed for a while-->
+  	<div class="d-flex flex-column pb-3">
+  		<img class="image-fluid mx-auto d-block" src="{% static 'Logo/htu-hotspot logo.png'%}" alt="htu hotspot logo" width="200" height="100">
+  	</div>
+
+  	<h1 class="h3 mb-3 font-weight-normal">Change Email</h1>
+
+ 
+  	<input type="email" name= "email" id="inputUpdateEmail" class="form-control" placeholder="New Email address">
+
+	<!--Non/ field error handling..Not unique-->
+	<small>
+	{% for field in email_form %}
+		{% for error in field.errors %}
+			<p style="color: red;">{{error}}</p>
+		{% endfor %}
+	
+		{% if prompt_success %}
+			<p style="color:green; text-align: center;">
+				{{prompt_success}}<br>
+				<a href="{% url 'profile' %}">Click	To Check Profile</a>
+			</p>	
+		{% endif%}
+	{% endfor %}
+	</small>
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Update Changes</button><hr>
+  
+  <h6 class="h6 mb-6 font-weight-normal"><a href="{% url 'profile' %}">back</a></h6>
+</form>
+
+{% endblock content %}

@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style type="text/css">
+	.form-signin {
+	  width: 100%;
+	  max-width: 400px;
+	  padding: 15px;
+	  margin: auto;
+	  margin-top: 70px
+	}
+	.form-signin .form-control {
+	  position: relative;
+	  box-sizing: border-box;
+	  height: auto;
+	  padding: 10px;
+	  font-size: 16px;
+	}
+	.form-signin .form-control:focus {
+	  z-index: 2;
+	}
+	.form-signin input[type="email"] {
+	  margin-bottom: 10px;
+	  border-bottom-right-radius: 0;
+	  border-bottom-left-radius: 0;
+	}
+	.form-signin input[type="password"] {
+	  margin-bottom: -1px;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+	}
+	.toggle{
+		cursor: pointer;
+		position: relative;
+		float: right;
+		font-size: 14px;
+		margin-top: 5px;	
+	}
+	.h3{
+		text-align: center;
+	}
+	.sm{
+		margin-bottom: 20px;
+	}
+	.h6{
+		text-align: center;
+		margin-top: -1px;
+	}
+
+</style>
+
+<form class="form-signin shadow p-4 mb-4 bg-white rounded-lg" method="post">{% csrf_token %}<!--encryption token that expires wehenever page is refreshed or stayed for a while-->
+  <!--img class="mb-4" src="{{ site.baseurl }}/docs/{{ site.docs_version }}/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"-->
+
+	<div class="d-flex flex-column pb-3">
+		<img class="image-fluid mx-auto d-block" src="{% static 'Logo/htu-hotspot logo.png'%}" alt="htu hotspot logo" width="260" height="100">
+	</div>
+
+	<h1 class="h3 mb-3 font-weight-normal">Log in</h1>
+
+	<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+	<small class="form-text text-muted">
+		<!--Non-field error handling..Not unique-->
+		{% for field in login_form %}
+			{% for error in field.errors %}
+				<p class="alert alert-warning" style="color: red;">{{error}}</p>
+			{% endfor %}
+		{% endfor %}
+	</small>
+	
+	<div>	
+		<input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+		<!--span class="passwordToggle" onclick="handleToggle()">
+			<i class="fa fa-eye" id="show_password"></i>
+			<i class="fa fa-eye-slash" id="hide_password"></i>
+		</span-->
+	</div>
+
+	<div class="toggle">	
+		<input type="checkbox" onclick="handleToggleInput()">
+		<small class="showPasswordToggle">ShowPassword</small>
+	</div>
+
+	<div class="sm">
+		<small class="text-muted">
+			Password must be 8-20 characters long.
+			<!--Field error handling-->
+			{% if login_form.non_field_errors %}
+			<div class="alert alert-danger" style="color: red;">
+				{{ login_form.non_field_errors }}
+			</div>
+			{% endif %}
+		</small>
+		</div>
+
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button><hr>
+	<h6 class="h6 mb-6 font-weight-normal"><a href="{% url 'password_reset' %}">Forgot Password?</a></h6>
+</form>
+
+<!--div class="d-flex flex-column">
+
+	<h6 class="h6 mb-6 font-weight-normal"><a href="{% url 'home' %}">home</a></h6>
+</div-->
+
+{% endblock content %}

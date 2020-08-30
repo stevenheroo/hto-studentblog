@@ -1,0 +1,91 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<style type="text/css">
+	@media (min-width: 800px) {
+    html {
+    font-size: 15px;
+    width: 100%;
+	  }
+	}
+  .container{
+    max-width: 1100px;
+  }
+  #id_head {
+    width: 100%;
+    display: block;
+  }
+</style>
+
+
+<div class="header sticky-top" id="id_head">
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+
+    <h3 class="my-0 mr-md-auto font-weight-normal"><a href="{% url 'home' %}"
+    style="text-decoration: none; color: #000;">HTU-HoTsPOT</a></h3>
+
+    {% if request.user.is_authenticated %}
+
+      <!-- Username when LoggedIn on a Large screen -->
+      <p class="my-0 mr-md-auto font-weight-normal d-md-flex 
+        d-none" style="cursor: pointer;">Hello, {{request.user.username}}
+      </p>
+      <!--End -->
+
+    <div class="row">
+        <div class="column my-2 my-md-0 ml-md-6">
+          <nav>
+            <a class="p-2 text-dark" href="{% url 'home' %}">HOME</a> |
+            <a class="p-2 text-dark" href="{% url 'profile' %}">PROFILE</a> |
+            <a class="p-2 text-dark" href="#">ABOUT</a> |
+            <a class="btn btn-outline-primary" href="{% url 'logout' %}">LOGOUT</a>
+          </nav> 
+    {% else %}
+    <div class="row">
+        <div class="column my-2 my-md-0 ml-md-6">
+          <nav>
+            <a class="p-2 text-dark" href="{% url 'home' %}">HOME</a> |
+            <a class="p-2 text-dark" href="#">ABOUT</a> |
+            <a class="btn btn-outline-primary" href="{% url 'register' %}">SignUp</a> |
+            <a class="btn btn-outline-secondary mr-md-3" href="{% url 'login' %}">LOGIN</a>
+          </nav>
+    {% endif %}
+    
+                          <!--Search Bar-->
+          <div class="search-bar mt-sm-1" style="max-width: 400px;">
+
+                                <!--show Username when LoggedIn ontop of search bar in small screen / screen is small -->
+          {% if request.user.is_authenticated %}
+            <p class="my-0 mr-md-auto font-weight-normal d-md-none"  style="text-align: center; cursor: pointer; cursor: pointer;">
+              Hello, {{request.user.username}}
+            </p>
+          {% else %}
+              <!--Come out with something...thinking of it ..-->
+              <p class="my-0 mr-md-auto mt-1 font-weight-normal d-md-none"  style="text-align: center; cursor: pointer;">
+                Welcome
+            </p>
+          {% endif %}
+                                <!--EndUsername print-->
+            <!--search bar-->
+            <form method="get">
+              <input type="text" class="form-control" name="q" id="id_q" placeholder="what do you want to search?">
+            </form>
+            <!--End search bar-->
+          </div>    
+      </div>
+      </div>
+    </div>
+    </div>
+                          <!--End Search Bar-->
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  document.getElementById('id_q').value = "{{query}}"
+
+</script>
+
+
+

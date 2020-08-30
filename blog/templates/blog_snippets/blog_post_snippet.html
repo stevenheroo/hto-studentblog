@@ -1,0 +1,78 @@
+{% block content %}
+
+<style type="text/css">
+	.card{
+		width: 600px;
+		margin: auto;
+	}
+	.container{
+		background-color: #fff;
+		margin-bottom: 20px;
+		padding: 20px;
+		border-radius: 20px;
+	}
+	.container-1{
+		background-color: #f2f2;
+		margin-bottom: 20px;
+		margin: auto;
+		padding: 20px;
+		border-radius: 20px;
+	}
+	#blog_img{
+		height: 400px;
+	}
+</style>
+
+{% if blog_posts %}
+<div class="container-1">
+	<div class="row">
+
+		<!--Blog Post-->
+		<div class="card m-auto">
+			<!--when blog has an image file show, else nothing to show-->
+			{% if blog_posts.image %}
+				<a href="{% url 'blog:detail' post.slug %}">
+					<img class="card-img-top mx-auto" id="blog_img" src="{{blog_posts.image.url}}">
+				</a>
+			{% endif %}
+
+			<div class="card-body my-2">
+				<a href="{% url 'blog:detail' post.slug %}">
+					<h5 class="card-title">{{blog_posts.title}}</h5>
+				</a>
+				<p class="card-text">{{blog_posts.body}}</p>
+				{% if blog_posts.author == request.user %}
+					<a href="{% url 'blog:edit' blog_posts.slug %}" class="btn btn-primary">Edit</a>
+				{% endif %}
+			</div>
+			{% if blog_posts.author == request.user %}
+				<div class="card-footer text-muted">Posted on {{blog_posts.date_updated}} | by you
+			{% else %}
+				<div class="card-footer text-muted">Posted on {{blog_posts.date_updated}} | by {{blog_posts.author}}
+			{% endif %}
+			
+			</div>
+		</div>
+		<!--End Blog Post-->
+	</div>
+</div>
+
+{% else %}
+<div class="container">
+	<div class="row">
+
+		
+		<div class="card m-auto">
+			<div class="card-body my-3">
+				<h2 class="card-title">!Found nothing</h2>
+				<p>There was nothing matching the search "{{query}}" </p>
+			</div>
+		</div>
+	</div>
+</div>	
+		
+{% endif %}
+
+
+
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% load static %}
+<style type="text/css">
+	.footer{
+		min-height: 100px;
+	}
+
+</style>
+
+<!-- Footer -->
+<div class="d-flex flex-row align-items-center footer bg-white shadow-lg bg-black">
+	<p class="m-auto" style="font-family: monospace;"><strong>SkepTheCoder | &copy 2020</strong></p>
+</div>
+<!-- End of Footer -->
+
+
+<!-- For accounts show password in Forms-->
+<script type="text/javascript" src="{% static 'js/accounts.js' %}"></script>
+
+
+<!--font awesome-->
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+<!--Image Change for HTU-Profile-Pic lg-sreen and/or Blog-->
+<script type="text/javascript">
+	
+	document.getElementById('id_image_group').onclick = function(event) {
+		document.getElementById('id_image_file').click();
+	};
+
+	function readURL(input) {
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$('#id_image_display')
+				.attr('src', e.target.result)
+		};
+		reader.readAsDataURL(input.files[0]);
+	}
+
+
+
+/*Image Change for HTU-Profile-Pic small-sreen*/
+	document.getElementById('id_image_group1').onclick = function(event) {
+		document.getElementById('id_image_file').click();
+	};
+
+	function readURL(input) {
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$('#id_image_display1')
+				.attr('src', e.target.result)
+		};
+		reader.readAsDataURL(input.files[0]);
+	}
+
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+

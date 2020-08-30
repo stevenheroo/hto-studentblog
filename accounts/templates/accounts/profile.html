@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style type="text/css">
+	.card{
+		margin: auto;
+	}
+	
+	.profile-pic-large-screen{
+		width: 200px; 
+		height: 200px; 
+		border-radius: 50%;
+		border: 2px solid #ce007b;
+		cursor: pointer;
+	}
+	.profile-pic-small-screen{
+		width: 150px; 
+		height: 150px; 
+		border-radius: 50%;
+		border: 2px solid #ffff;
+	}
+	.small-screen-card{
+		border-radius: 50%;
+		border: 2px solid #ce007b;
+		margin-right: 1px;
+	}
+	.image{
+		opacity: 1;
+		transform: .5s ease;
+		backface-visibility: hidden;
+	}
+	.middle-lg-screen{
+		transition: .5s ease;
+		opacity: 0;
+		position: absolute;
+		text-align: center;
+		top: 12%;
+		left: 30%;
+		transform: translate(50%, 50%);
+	}
+	.middle-sm-screen{
+		transition: .5s ease;
+		opacity: 0;
+		position: absolute;
+		text-align: center;
+		top: 35%;
+		left: 20%;
+		transform: translate(50%, 50%);
+	}
+	.image-group:hover .middle-lg-screen{
+		opacity: 1;
+	}
+	.image-group:hover .middle-sm-screen{
+		opacity: 1;
+	}
+	.image-group:hover .image{
+		opacity: 0.8;
+	}
+	.text{
+		margin: auto;
+		background-color: #4CAF50;
+		color: #ffff;
+		font-size: 10px;
+		padding: 5px;
+		border-radius: 10px;
+		cursor: pointer;
+	}
+	label{
+		font-size: 15px;
+		font-weight: bold;
+	}
+	.blog_list{
+		border-radius: 20px;
+		background-color: #0202;
+	}
+	/*.blog_list:hover{
+		transform: translate(10%, -10%);
+		border-radius: 20px;
+	}*/
+	.post_list{
+		background-color: #0202;
+		color: #000;
+		font-weight: bold;
+		margin-bottom: 5px;
+	}
+	.post_list:hover{
+		transform: translate(10%, 10%);
+		border-radius: 20px;
+	}
+	.sk{
+		background-color: #0202;
+	}
+	
+
+</style>
+
+<div class="container">
+	<div class="row">
+		
+		<!--For ImageField-->
+		<div class="col-md-3">
+							<!--Shows on large screen-->
+			<div class="d-lg-flex d-none image-group" id="id_image_group">
+				{% if user.userprofile.profile_pic %}
+					<img class="img-fluid image profile-pic-large-screen" id="id_image_display" src="{{form.initial.profile_pic.url}}">
+					<div class="middle-lg-screen">
+						<div class="text">Change</div>
+					</div>
+				{% else %}
+					<img class="img-fluid image profile-pic-large-screen" id="id_image_display" src="{% static 'Logo/default-profile-picture-1.png' %}">
+					<div class="middle-lg-screen">
+						<div class="text">AddPic</div>
+					</div>
+				{% endif %}
+			</div><br>
+
+			<div class="col-md-3 card-body">
+				<h1>wdddm</h1>
+				
+			</div>
+
+				<!--BLOG POST large-screen-->			
+			<div class="col-md-13" >			
+				<div class="card card-body d-lg-flex d-none sk">
+					<div class="row">
+						<div class="blog_posts">
+							<h3 class="mb-2 font-weight-normal" style="color: black;">My Feeds:</h3>
+							{% if blog_posts %}
+							<ul class="card blog_list shadow">
+								{% for post in blog_posts %}
+									<a href="{% url 'blog:detail' post.slug%}" style=" text-decoration: none;">
+										<li>
+											<small class="card post_list shadow">{{post}}</small>
+										</li>
+									</a>
+								{% endfor %}
+							</ul>
+							{% else %}
+								<p>You have no Blog Create a post <a href="{% url 'blog:create' %}">Create</a></p>
+							{% endif %}
+							<!--End Blog-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--End ImageField -->
+
+
+		
+		<!--Profile Body-->
+		<div class="col-md-9">
+			<div class="card card-body">
+
+				<!--Level/Program-->
+				<div class="form-group">
+					<div class="row">
+
+						<!--Image small screen view-->
+						<div class="card d-lg-none image-group small-screen-card" id="id_image_group1">
+							{% if user.userprofile.profile_pic %}
+								<img class="img-fluid image profile-pic-small-screen" id="id_image_display1" src="{{request.user.userprofile.profile_pic.url}}">
+								<div class="middle-sm-screen">
+									<div class="text">Change</div>
+								</div>
+							{% else %}
+								<img class="img-fluid image profile-pic-small-screen" id="id_image_display1" src="{% static 'Logo/default-profile-picture-1.png' %}">
+								<div class="middle-sm-screen">
+									<div class="text">AddPic</div>
+								</div>								
+							{% endif %}
+						</div>
+						<!--End Image-->
+
+
+						<div class="m-auto">
+							<!-- Print User Name-->
+							<hr><h4>{{user.lastname}} {{user.firstname}}</h4><hr>
+						</div>
+					</div>
+
+
+
+						<!--  EDIT FORM, WHEN USER HAS PROFILE -->	
+			
+			{% if user.userprofile %}
+			<form class="create-form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+				<!--Level/Program-->
+				<div class="form-group">
+					<div class="row">
+						<div class="m-auto">
+							{% if prompt_success %}
+							<p class="alert alert-success" style="color:green; text-align: center;">
+								{{prompt_success}}
+							</p>	
+							{% endif%}
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<label for="id_level">Level</label>
+								{{form.level}}
+						</div>
+						<div class="col-md-6">
+							<label for="id_programme">Programme</label>
+							<input class="form-control" type="text" name="programme" id="id_programme" placeholder="eg.HND <name of programme>" value="{{form.initial.programme}}">
+						</div>
+					</div>
+				</div>
+
+				<!--Age/Phone-->
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6">
+							<label for="id_age">Birth Date</label>
+								{{form.age}}
+						</div>
+						<div class="col-md-6">
+							<label for="id_phone">Phone</label>
+							<input class="form-control" type="text" name="phone" id="id_phone" placeholder="Telephone Number" value="{{form.initial.phone}}">
+						</div>
+					</div>
+				</div>
+				
+				<!--About Student-->
+				<div class="form-group">
+					<label for="id_description">StudentDescription</label>
+					<textarea class="form-control" row="1" type="text" name="description" id="id_description" placeholder="About yourself......">{{form.initial.description}}</textarea>
+				</div>
+
+				<!--Profile/Gender-->
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-9">
+							<label for="id_profile_pic">Add Picture</label>
+							<input type="file" name="profile_pic" id="id_image_file" accept="image/" onchange="readURL(this)">
+						</div>
+						<div class="col-md-3">
+							<label for="id_gender">Gender</label>
+							{{form.gender}}
+						</div>
+					</div>
+				</div>
+
+				<!--Submit Btn-->
+				<button class="submit-button btn btn-lg btn-primary btn-block m-auto" type="submit">UPDATE PROFILE</button>
+			</form>
+				{% else %}
+								<!-- Create Profile Form-->
+					
+						<h1>ConTact Administrator For Profile</h1>
+				
+									<!--Create End Form-->					
+				{% endif %}
+								<!--End Edit form-->
+			</div>
+		</div>
+		<!--End Profile Body-->
+		
+
+			<!--Blog small screen view-->
+			<div class="col-md-13 d-lg-none">			
+					<div class="blog_posts">
+						<h3 class="mb-2 font-weight-normal">Blog posts:</h3>
+						{% if blog_posts %}
+						<ul>
+							{% for post in blog_posts %}
+								<a href="{% url 'blog:detail' post.slug%}" style=" text-decoration: none;">
+									<li class="list-group-item">
+										<small>{{post}}</small>
+									</li><br>
+								</a>
+							{% endfor %}
+						</ul>
+						{% else %}
+							<p>You have no Blog Create a post <a href="{% url 'blog:create' %}">CreateBlog</a></p>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<!--End Blog small view-->
+
+		</div>
+		<!--End Profile-->
+	</div>
+</div>
+
+{% endblock content %}

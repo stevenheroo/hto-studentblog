@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+	<title>htu-hotspot</title>
+	{% include 'snippets/header.html' %}
+</head>
+
+<body>
+<!--Body-->
+<style type="text/css">
+	.main{
+		min-height: 100vh;
+		height: 100%;
+	}
+</style>
+<div class="main">
+{% block content %}
+
+{% endblock content %}
+</div>
+<!-- End of Body-->
+
+{% include 'snippets/footer.html' %}
+{% include 'snippets/base-css.html' %}
+</body>
+
+<footer>
+	
+</footer>
+</html>

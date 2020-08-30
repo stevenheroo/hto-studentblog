@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style type="text/css">
+	@media (max-width: 500px) 
+	{
+		.left-column{
+			margin-left: 0px;
+		}
+	}
+	@media (min-width: 500px) 
+	{
+		.right-column{
+			margin-left: 0px;
+		}
+	}
+	.blog-post-container{
+		margin-bottom: 10px;
+		width: 95%;
+		border-radius: 20px;
+	}
+	.create-post-bar{
+		background-color: #0202;
+		margin-bottom: 30px;
+		width: 300px; 
+	}
+	.left-column{
+		padding: 5px;
+		margin-left: 15px;
+	}
+	.right-column{
+		padding: 5px;
+		border-left: 1px solid #0487;
+		margin-left: 10px;
+	}
+	#back-to-top{
+		background-color: #0202;
+		position: fixed;
+		bottom: 30px;
+		left: 90%;
+		z-index: 99;
+		border-radius: 10px;
+		color: #000;
+		font-size: 20px;
+		display: none;
+	}
+	#back-to-top:hover {
+  		background-color: #555;
+	}
+</style>
+
+<div class="container">
+	<div class="row">
+
+
+		<!-- BLOG FEED-->
+		<div class="left-column col-lg-8">
+
+			<!-- CREATE POST 'bar'-->
+		<div class="d-lg-none mb-3">
+			<div class="blog-post-container" style="background-color: #0202;">
+				<img class="image-fluid mx-auto d-block" src="{% static 'Logo/htu-hotspot logo.png'%}" alt="htu hotspot logo" width="auto" height="40">
+				<p style="text-align: center;"><strong><em>Hotspot</em></strong>
+				<small>A platform for all students to share views on educational stuffs. Whats HOT now!!!!</small>
+				</p>
+				<h6 style="text-align: center;"><a href="{% url 'blog:create' %}" class="btn-sm btn-primary" style="text-decoration: none;">Create Post</a><hr></h6>
+			</div>
+		</div>
+		<!--END 'bar'-->
+
+
+
+		{% if blog_posts %}
+			{% for post in blog_posts %}
+				<div class="blog-post-container">
+					{% include 'blog_snippets/blog_post_snippet.html' with blog_posts=post %}
+				</div>
+			{% endfor %}
+		{% else %}
+				<div class="blog-post-container">
+					{% include 'blog_snippets/blog_post_snippet.html' with query=query %}
+				</div>
+		{% endif %}
+		</div>
+		<!-- END BLOG FEED-->
+
+
+		<!-- Right-column'-->
+		<div class="right-column col-lg-3 d-lg-flex d-none flex-column position-top ml-6">
+			<div class="create-post-bar">
+				<img class="image-fluid mx-auto d-block" src="{% static 'Logo/htu-hotspot logo.png'%}" alt="htu hotspot logo" width="auto" height="80">
+				<p style="text-align: center;"><strong><em>Hotspot</em></strong>
+				<small>A platform for all students to share views on educational stuffs. Whats HOT now!!!!</small>
+				</p>
+				<h6 style="text-align: center;"><a href="{% url 'blog:create' %}" class="btn-sm btn-primary" style="text-decoration: none;">Create Post</a></h6>
+			</div>
+
+			<div class="create-post-bar">
+				<p>stuffs</p>
+				<p>stuffs</p>
+				<p>stuffs</p>
+				<p>stuffs</p>
+				<p>stuffs</p>
+				<p>stuffs</p>
+				<a href="{% url 'blog:create' %}"><h6 style="text-align: center; text-decoration: none;">something?</h6></a>
+			</div>
+
+		</div>
+		<!--END right-column-->    
+		
+	</div>
+	<!--Scroll Top-->
+		<a id="back-to-top" href="#" class="btn btn-light btn-lg back-to-top shadow" role="button"><i class="fas fa-chevron-up"></i></a>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+//Get the button:
+backtotop = document.getElementById("back-to-top");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.documentElement.scrollTop > 20) {
+   	backtotop.style.display = "block";
+  } else {
+    backtotop.style.display = "none";
+  }
+}
+
+/* When the user clicks on this button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}*/
+</script>
+
+{% endblock content %}
